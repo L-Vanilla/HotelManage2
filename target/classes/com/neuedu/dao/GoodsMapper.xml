@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.dao.GoodsMapper">
+  <parameterMap id="parameterMap" type="com.neuedu.pojo.Goods">
+  </parameterMap>
+  <resultMap id="BaseResultMap" type="com.neuedu.pojo.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_typeid" jdbcType="INTEGER" property="goodsTypeid" />
+    <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="active" jdbcType="INTEGER" property="active" />
+    <result column="goods_typename" jdbcType="VARCHAR" property="goodsTypename" />
+    <association  property="goodsType" column="goods_typeid" select="com.neuedu.dao.GoodsTypeMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, goods_name, goods_typeid, goods_price, unit, notes, create_time, active, goods_typename
+  </sql>
+  <select id="selectByExample" parameterType="com.neuedu.pojo.GoodsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.neuedu.pojo.GoodsExample">
+    delete from goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.neuedu.pojo.Goods">
+    insert into goods (id, goods_name, goods_typeid, 
+      goods_price, unit, notes, 
+      create_time, active, goods_typename
+      )
+    values (#{id,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsTypeid,jdbcType=INTEGER}, 
+      #{goodsPrice,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{active,jdbcType=INTEGER}, #{goodsTypename,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.neuedu.pojo.Goods">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsTypeid != null">
+        goods_typeid,
+      </if>
+      <if test="goodsPrice != null">
+        goods_price,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="notes != null">
+        notes,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+      <if test="goodsTypename != null">
+        goods_typename,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeid != null">
+        #{goodsTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null">
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTypename != null">
+        #{goodsTypename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.neuedu.pojo.GoodsExample" resultType="java.lang.Long">
+    select count(*) from goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update goods
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsName != null">
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsTypeid != null">
+        goods_typeid = #{record.goodsTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsPrice != null">
+        goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notes != null">
+        notes = #{record.notes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.active != null">
+        active = #{record.active,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsTypename != null">
+        goods_typename = #{record.goodsTypename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update goods
+    set id = #{record.id,jdbcType=INTEGER},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_typeid = #{record.goodsTypeid,jdbcType=INTEGER},
+      goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      notes = #{record.notes,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      active = #{record.active,jdbcType=INTEGER},
+      goods_typename = #{record.goodsTypename,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.neuedu.pojo.Goods">
+    update goods
+    <set>
+      <if test="goodsName != null">
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+     </if>
+      <if test="goodsTypeid !=null">
+        goods_typeid = #{goodsTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsPrice != null">
+        goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null">
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTypename != null">
+        goods_typename = #{goodsTypename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.neuedu.pojo.Goods">
+    update goods
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_typeid = #{goodsTypeid,jdbcType=INTEGER},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      unit = #{unit,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      active = #{active,jdbcType=INTEGER},
+      goods_typename = #{goodsTypename,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectGoodsByGoodsTypeId" resultType="java.lang.Integer">
+    SELECT
+   count(1)
+    FROM
+   goods
+    WHERE goods_typeid = #{goodsTypeid, jdbcType=INTEGER} and active=1
+  </select>
+</mapper>

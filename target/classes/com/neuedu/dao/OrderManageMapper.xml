@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.dao.OrderManageMapper">
+  <resultMap id="BaseResultMap" type="com.neuedu.pojo.OrderManage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="original_room_id" jdbcType="INTEGER" property="originalRoomId" />
+    <result column="current_room_id" jdbcType="INTEGER" property="currentRoomId" />
+    <result column="book_status" jdbcType="INTEGER" property="bookStatus" />
+    <result column="room_type_id" jdbcType="INTEGER" property="roomTypeId" />
+    <result column="normal_price" jdbcType="DECIMAL" property="normalPrice" />
+    <result column="discount_price" jdbcType="DECIMAL" property="discountPrice" />
+    <result column="deposit" jdbcType="DECIMAL" property="deposit" />
+    <result column="residents" jdbcType="VARCHAR" property="residents" />
+    <result column="credentials_type" jdbcType="VARCHAR" property="credentialsType" />
+    <result column="credentials_num" jdbcType="VARCHAR" property="credentialsNum" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime" />
+    <result column="leave_time" jdbcType="TIMESTAMP" property="leaveTime" />
+    <result column="person_num" jdbcType="INTEGER" property="personNum" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="member_price" jdbcType="DECIMAL" property="memberPrice" />
+    <result column="breakfast" jdbcType="VARCHAR" property="breakfast" />
+    <result column="timed_wakeup" jdbcType="VARCHAR" property="timedWakeup" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="active" jdbcType="INTEGER" property="active" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="rooms_type_name" jdbcType="VARCHAR" property="roomsTypeName" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="original_room_name" jdbcType="VARCHAR" property="originalRoomName" />
+    <result column="current_room_name" jdbcType="VARCHAR" property="currentRoomName" />
+    <association  property="orderForm" column="id" select="com.neuedu.dao.OrderFormMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, original_room_id, current_room_id, book_status, room_type_id, normal_price, discount_price, 
+    deposit, residents, credentials_type, credentials_num, phone, arrival_time, leave_time, 
+    person_num, user_id, member_id, member_price, breakfast, timed_wakeup, remarks, active, 
+    create_date, rooms_type_name, user_name, original_room_name, current_room_name
+  </sql>
+  <select id="selectByExample" parameterType="com.neuedu.pojo.OrderManageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_manage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_manage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.neuedu.pojo.OrderManageExample">
+    delete from order_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.neuedu.pojo.OrderManage">
+    insert into order_manage (id, original_room_id, current_room_id, 
+      book_status, room_type_id, normal_price, 
+      discount_price, deposit, residents, 
+      credentials_type, credentials_num, phone, 
+      arrival_time, leave_time, person_num, 
+      user_id, member_id, member_price, 
+      breakfast, timed_wakeup, remarks, 
+      active, create_date, rooms_type_name, 
+      user_name, original_room_name, current_room_name
+      )
+    values (#{id,jdbcType=INTEGER}, #{originalRoomId,jdbcType=INTEGER}, #{currentRoomId,jdbcType=INTEGER}, 
+      #{bookStatus,jdbcType=INTEGER}, #{roomTypeId,jdbcType=INTEGER}, #{normalPrice,jdbcType=DECIMAL}, 
+      #{discountPrice,jdbcType=DECIMAL}, #{deposit,jdbcType=DECIMAL}, #{residents,jdbcType=VARCHAR}, 
+      #{credentialsType,jdbcType=VARCHAR}, #{credentialsNum,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{arrivalTime,jdbcType=TIMESTAMP}, #{leaveTime,jdbcType=TIMESTAMP}, #{personNum,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{memberPrice,jdbcType=DECIMAL}, 
+      #{breakfast,jdbcType=VARCHAR}, #{timedWakeup,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{active,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{roomsTypeName,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{originalRoomName,jdbcType=VARCHAR}, #{currentRoomName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.neuedu.pojo.OrderManage">
+    insert into order_manage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="originalRoomId != null">
+        original_room_id,
+      </if>
+      <if test="currentRoomId != null">
+        current_room_id,
+      </if>
+      <if test="bookStatus != null">
+        book_status,
+      </if>
+      <if test="roomTypeId != null">
+        room_type_id,
+      </if>
+      <if test="normalPrice != null">
+        normal_price,
+      </if>
+      <if test="discountPrice != null">
+        discount_price,
+      </if>
+      <if test="deposit != null">
+        deposit,
+      </if>
+      <if test="residents != null">
+        residents,
+      </if>
+      <if test="credentialsType != null">
+        credentials_type,
+      </if>
+      <if test="credentialsNum != null">
+        credentials_num,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time,
+      </if>
+      <if test="leaveTime != null">
+        leave_time,
+      </if>
+      <if test="personNum != null">
+        person_num,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="memberPrice != null">
+        member_price,
+      </if>
+      <if test="breakfast != null">
+        breakfast,
+      </if>
+      <if test="timedWakeup != null">
+        timed_wakeup,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="roomsTypeName != null">
+        rooms_type_name,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="originalRoomName != null">
+        original_room_name,
+      </if>
+      <if test="currentRoomName != null">
+        current_room_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="originalRoomId != null">
+        #{originalRoomId,jdbcType=INTEGER},
+      </if>
+      <if test="currentRoomId != null">
+        #{currentRoomId,jdbcType=INTEGER},
+      </if>
+      <if test="bookStatus != null">
+        #{bookStatus,jdbcType=INTEGER},
+      </if>
+      <if test="roomTypeId != null">
+        #{roomTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="normalPrice != null">
+        #{normalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null">
+        #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="deposit != null">
+        #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="residents != null">
+        #{residents,jdbcType=VARCHAR},
+      </if>
+      <if test="credentialsType != null">
+        #{credentialsType,jdbcType=VARCHAR},
+      </if>
+      <if test="credentialsNum != null">
+        #{credentialsNum,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalTime != null">
+        #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leaveTime != null">
+        #{leaveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personNum != null">
+        #{personNum,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="memberPrice != null">
+        #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="breakfast != null">
+        #{breakfast,jdbcType=VARCHAR},
+      </if>
+      <if test="timedWakeup != null">
+        #{timedWakeup,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomsTypeName != null">
+        #{roomsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="originalRoomName != null">
+        #{originalRoomName,jdbcType=VARCHAR},
+      </if>
+      <if test="currentRoomName != null">
+        #{currentRoomName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.neuedu.pojo.OrderManageExample" resultType="java.lang.Long">
+    select count(*) from order_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update order_manage
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.originalRoomId != null">
+        original_room_id = #{record.originalRoomId,jdbcType=INTEGER},
+      </if>
+      <if test="record.currentRoomId != null">
+        current_room_id = #{record.currentRoomId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookStatus != null">
+        book_status = #{record.bookStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.roomTypeId != null">
+        room_type_id = #{record.roomTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.normalPrice != null">
+        normal_price = #{record.normalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.discountPrice != null">
+        discount_price = #{record.discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deposit != null">
+        deposit = #{record.deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.residents != null">
+        residents = #{record.residents,jdbcType=VARCHAR},
+      </if>
+      <if test="record.credentialsType != null">
+        credentials_type = #{record.credentialsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.credentialsNum != null">
+        credentials_num = #{record.credentialsNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arrivalTime != null">
+        arrival_time = #{record.arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.leaveTime != null">
+        leave_time = #{record.leaveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.personNum != null">
+        person_num = #{record.personNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberPrice != null">
+        member_price = #{record.memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.breakfast != null">
+        breakfast = #{record.breakfast,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timedWakeup != null">
+        timed_wakeup = #{record.timedWakeup,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.active != null">
+        active = #{record.active,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.roomsTypeName != null">
+        rooms_type_name = #{record.roomsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.originalRoomName != null">
+        original_room_name = #{record.originalRoomName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentRoomName != null">
+        current_room_name = #{record.currentRoomName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update order_manage
+    set id = #{record.id,jdbcType=INTEGER},
+      original_room_id = #{record.originalRoomId,jdbcType=INTEGER},
+      current_room_id = #{record.currentRoomId,jdbcType=INTEGER},
+      book_status = #{record.bookStatus,jdbcType=INTEGER},
+      room_type_id = #{record.roomTypeId,jdbcType=INTEGER},
+      normal_price = #{record.normalPrice,jdbcType=DECIMAL},
+      discount_price = #{record.discountPrice,jdbcType=DECIMAL},
+      deposit = #{record.deposit,jdbcType=DECIMAL},
+      residents = #{record.residents,jdbcType=VARCHAR},
+      credentials_type = #{record.credentialsType,jdbcType=VARCHAR},
+      credentials_num = #{record.credentialsNum,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      arrival_time = #{record.arrivalTime,jdbcType=TIMESTAMP},
+      leave_time = #{record.leaveTime,jdbcType=TIMESTAMP},
+      person_num = #{record.personNum,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      member_id = #{record.memberId,jdbcType=INTEGER},
+      member_price = #{record.memberPrice,jdbcType=DECIMAL},
+      breakfast = #{record.breakfast,jdbcType=VARCHAR},
+      timed_wakeup = #{record.timedWakeup,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      active = #{record.active,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      rooms_type_name = #{record.roomsTypeName,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      original_room_name = #{record.originalRoomName,jdbcType=VARCHAR},
+      current_room_name = #{record.currentRoomName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.neuedu.pojo.OrderManage">
+    update order_manage
+    <set>
+      <if test="originalRoomId != null">
+        original_room_id = #{originalRoomId,jdbcType=INTEGER},
+      </if>
+      <if test="currentRoomId != null">
+        current_room_id = #{currentRoomId,jdbcType=INTEGER},
+      </if>
+      <if test="bookStatus != null">
+        book_status = #{bookStatus,jdbcType=INTEGER},
+      </if>
+      <if test="roomTypeId != null">
+        room_type_id = #{roomTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="normalPrice != null">
+        normal_price = #{normalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null">
+        discount_price = #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="deposit != null">
+        deposit = #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="residents != null">
+        residents = #{residents,jdbcType=VARCHAR},
+      </if>
+      <if test="credentialsType != null">
+        credentials_type = #{credentialsType,jdbcType=VARCHAR},
+      </if>
+      <if test="credentialsNum != null">
+        credentials_num = #{credentialsNum,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leaveTime != null">
+        leave_time = #{leaveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personNum != null">
+        person_num = #{personNum,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="memberPrice != null">
+        member_price = #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="breakfast != null">
+        breakfast = #{breakfast,jdbcType=VARCHAR},
+      </if>
+      <if test="timedWakeup != null">
+        timed_wakeup = #{timedWakeup,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomsTypeName != null">
+        rooms_type_name = #{roomsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="originalRoomName != null">
+        original_room_name = #{originalRoomName,jdbcType=VARCHAR},
+      </if>
+      <if test="currentRoomName != null">
+        current_room_name = #{currentRoomName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.neuedu.pojo.OrderManage">
+    update order_manage
+    set original_room_id = #{originalRoomId,jdbcType=INTEGER},
+      current_room_id = #{currentRoomId,jdbcType=INTEGER},
+      book_status = #{bookStatus,jdbcType=INTEGER},
+      room_type_id = #{roomTypeId,jdbcType=INTEGER},
+      normal_price = #{normalPrice,jdbcType=DECIMAL},
+      discount_price = #{discountPrice,jdbcType=DECIMAL},
+      deposit = #{deposit,jdbcType=DECIMAL},
+      residents = #{residents,jdbcType=VARCHAR},
+      credentials_type = #{credentialsType,jdbcType=VARCHAR},
+      credentials_num = #{credentialsNum,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      leave_time = #{leaveTime,jdbcType=TIMESTAMP},
+      person_num = #{personNum,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      member_id = #{memberId,jdbcType=INTEGER},
+      member_price = #{memberPrice,jdbcType=DECIMAL},
+      breakfast = #{breakfast,jdbcType=VARCHAR},
+      timed_wakeup = #{timedWakeup,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      active = #{active,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      rooms_type_name = #{roomsTypeName,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      original_room_name = #{originalRoomName,jdbcType=VARCHAR},
+      current_room_name = #{currentRoomName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

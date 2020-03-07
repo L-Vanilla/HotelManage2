@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.dao.LeaguerMapper">
+  <resultMap id="BaseResultMap" type="com.neuedu.pojo.Leaguer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="leaguer_name" jdbcType="VARCHAR" property="leaguerName" />
+    <result column="leaguer_sex" jdbcType="VARCHAR" property="leaguerSex" />
+    <result column="leaguer_pwd" jdbcType="VARCHAR" property="leaguerPwd" />
+    <result column="leaguer_tel" jdbcType="VARCHAR" property="leaguerTel" />
+    <result column="leaguer_address" jdbcType="VARCHAR" property="leaguerAddress" />
+    <result column="leaguer_email" jdbcType="VARCHAR" property="leaguerEmail" />
+    <result column="leaguer_score" jdbcType="INTEGER" property="leaguerScore" />
+    <result column="leaguer_rank" jdbcType="VARCHAR" property="leaguerRank" />
+    <result column="time_lastlive" jdbcType="TIMESTAMP" property="timeLastlive" />
+    <result column="time_lastorder" jdbcType="TIMESTAMP" property="timeLastorder" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="active" jdbcType="INTEGER" property="active" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, leaguer_name, leaguer_sex, leaguer_pwd, leaguer_tel, leaguer_address, leaguer_email, 
+    leaguer_score, leaguer_rank, time_lastlive, time_lastorder, remarks, active, create_date
+  </sql>
+  <select id="selectByExample" parameterType="com.neuedu.pojo.LeaguerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from leaguer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from leaguer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from leaguer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.neuedu.pojo.LeaguerExample">
+    delete from leaguer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.neuedu.pojo.Leaguer">
+    insert into leaguer (id, leaguer_name, leaguer_sex, 
+      leaguer_pwd, leaguer_tel, leaguer_address, 
+      leaguer_email, leaguer_score, leaguer_rank, 
+      time_lastlive, time_lastorder, remarks, 
+      active, create_date)
+    values (#{id,jdbcType=INTEGER}, #{leaguerName,jdbcType=VARCHAR}, #{leaguerSex,jdbcType=VARCHAR}, 
+      #{leaguerPwd,jdbcType=VARCHAR}, #{leaguerTel,jdbcType=VARCHAR}, #{leaguerAddress,jdbcType=VARCHAR}, 
+      #{leaguerEmail,jdbcType=VARCHAR}, #{leaguerScore,jdbcType=INTEGER}, #{leaguerRank,jdbcType=VARCHAR}, 
+      #{timeLastlive,jdbcType=TIMESTAMP}, #{timeLastorder,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, 
+      #{active,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.neuedu.pojo.Leaguer">
+    insert into leaguer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="leaguerName != null">
+        leaguer_name,
+      </if>
+      <if test="leaguerSex != null">
+        leaguer_sex,
+      </if>
+      <if test="leaguerPwd != null">
+        leaguer_pwd,
+      </if>
+      <if test="leaguerTel != null">
+        leaguer_tel,
+      </if>
+      <if test="leaguerAddress != null">
+        leaguer_address,
+      </if>
+      <if test="leaguerEmail != null">
+        leaguer_email,
+      </if>
+      <if test="leaguerScore != null">
+        leaguer_score,
+      </if>
+      <if test="leaguerRank != null">
+        leaguer_rank,
+      </if>
+      <if test="timeLastlive != null">
+        time_lastlive,
+      </if>
+      <if test="timeLastorder != null">
+        time_lastorder,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="leaguerName != null">
+        #{leaguerName,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerSex != null">
+        #{leaguerSex,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerPwd != null">
+        #{leaguerPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerTel != null">
+        #{leaguerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerAddress != null">
+        #{leaguerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerEmail != null">
+        #{leaguerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerScore != null">
+        #{leaguerScore,jdbcType=INTEGER},
+      </if>
+      <if test="leaguerRank != null">
+        #{leaguerRank,jdbcType=VARCHAR},
+      </if>
+      <if test="timeLastlive != null">
+        #{timeLastlive,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeLastorder != null">
+        #{timeLastorder,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.neuedu.pojo.LeaguerExample" resultType="java.lang.Long">
+    select count(*) from leaguer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update leaguer
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.leaguerName != null">
+        leaguer_name = #{record.leaguerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaguerSex != null">
+        leaguer_sex = #{record.leaguerSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaguerPwd != null">
+        leaguer_pwd = #{record.leaguerPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaguerTel != null">
+        leaguer_tel = #{record.leaguerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaguerAddress != null">
+        leaguer_address = #{record.leaguerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaguerEmail != null">
+        leaguer_email = #{record.leaguerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaguerScore != null">
+        leaguer_score = #{record.leaguerScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.leaguerRank != null">
+        leaguer_rank = #{record.leaguerRank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timeLastlive != null">
+        time_lastlive = #{record.timeLastlive,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.timeLastorder != null">
+        time_lastorder = #{record.timeLastorder,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.active != null">
+        active = #{record.active,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update leaguer
+    set id = #{record.id,jdbcType=INTEGER},
+      leaguer_name = #{record.leaguerName,jdbcType=VARCHAR},
+      leaguer_sex = #{record.leaguerSex,jdbcType=VARCHAR},
+      leaguer_pwd = #{record.leaguerPwd,jdbcType=VARCHAR},
+      leaguer_tel = #{record.leaguerTel,jdbcType=VARCHAR},
+      leaguer_address = #{record.leaguerAddress,jdbcType=VARCHAR},
+      leaguer_email = #{record.leaguerEmail,jdbcType=VARCHAR},
+      leaguer_score = #{record.leaguerScore,jdbcType=INTEGER},
+      leaguer_rank = #{record.leaguerRank,jdbcType=VARCHAR},
+      time_lastlive = #{record.timeLastlive,jdbcType=TIMESTAMP},
+      time_lastorder = #{record.timeLastorder,jdbcType=TIMESTAMP},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      active = #{record.active,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.neuedu.pojo.Leaguer">
+    update leaguer
+    <set>
+      <if test="leaguerName != null">
+        leaguer_name = #{leaguerName,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerSex != null">
+        leaguer_sex = #{leaguerSex,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerPwd != null">
+        leaguer_pwd = #{leaguerPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerTel != null">
+        leaguer_tel = #{leaguerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerAddress != null">
+        leaguer_address = #{leaguerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerEmail != null">
+        leaguer_email = #{leaguerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguerScore != null">
+        leaguer_score = #{leaguerScore,jdbcType=INTEGER},
+      </if>
+      <if test="leaguerRank != null">
+        leaguer_rank = #{leaguerRank,jdbcType=VARCHAR},
+      </if>
+      <if test="timeLastlive != null">
+        time_lastlive = #{timeLastlive,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeLastorder != null">
+        time_lastorder = #{timeLastorder,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.neuedu.pojo.Leaguer">
+    update leaguer
+    set leaguer_name = #{leaguerName,jdbcType=VARCHAR},
+      leaguer_sex = #{leaguerSex,jdbcType=VARCHAR},
+      leaguer_pwd = #{leaguerPwd,jdbcType=VARCHAR},
+      leaguer_tel = #{leaguerTel,jdbcType=VARCHAR},
+      leaguer_address = #{leaguerAddress,jdbcType=VARCHAR},
+      leaguer_email = #{leaguerEmail,jdbcType=VARCHAR},
+      leaguer_score = #{leaguerScore,jdbcType=INTEGER},
+      leaguer_rank = #{leaguerRank,jdbcType=VARCHAR},
+      time_lastlive = #{timeLastlive,jdbcType=TIMESTAMP},
+      time_lastorder = #{timeLastorder,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      active = #{active,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
